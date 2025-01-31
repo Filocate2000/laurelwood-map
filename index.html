@@ -4,11 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laurelwood Estates Map</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+        // Function to extract API key from URL parameter
+        function getQueryParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+
+        const apiKey = getQueryParam("key"); // Get API key from Wix URL parameter
+
+        if (apiKey) {
+            document.write(`<script src="https://maps.googleapis.com/maps/api/js?key=${apiKey}"><\/script>`);
+        } else {
+            console.error("❌ API Key not provided in URL");
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <h2 style="text-align:center;">Laurelwood Estates Neighborhood Map</h2>
+    <div id="map" style="width:100%; height:500px;"></div>
+
     <script>
         function initMap() {
+            if (!window.google || !google.maps) {
+                console.error("❌ Google Maps API not loaded");
+                return;
+            }
+
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 34.139, lng: -118.394 }, // Adjusted for Laurelwood Estates
+                center: { lat: 34.139, lng: -118.394 }, // Adjust for Laurelwood Estates
                 zoom: 14,
                 mapTypeId: 'roadmap',
                 styles: [
@@ -19,16 +43,11 @@
                 ]
             });
 
-            // Load the Direct KML File
             var kmlLayer = new google.maps.KmlLayer({
-                url: 'https://yourhost.com/laurelwood.kml', // Replace with your new direct KML file URL
+                url: 'https://97dabb6c-1620-47f0-8149-7178bf2bba00.usrfiles.com/ugd/97dabb_2a404a3975174df3a4de8a72841b800c.kml',
                 map: map
             });
         }
     </script>
-</head>
-<body onload="initMap()">
-    <h2 style="text-align:center;">Laurelwood Estates Neighborhood Map</h2>
-    <div id="map" style="width:100%; height:500px;"></div>
 </body>
 </html>
